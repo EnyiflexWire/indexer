@@ -3,7 +3,7 @@ import type { EvmClient } from '#/clients'
 import { logger } from '#/logger'
 import { type Event, compareEvents, createEventSignature, decodeLogtoEvent } from '#/pubsub/event'
 import type { EventSubscriber } from '#/pubsub/subscriber/interface'
-import { raise } from '#/utilities'
+import { raise, sleep } from '#/utilities'
 import type { EventPublisher } from './interface'
 
 /**
@@ -60,6 +60,7 @@ export class ContractEventPublisher implements EventPublisher {
     let i = 0
     const logs: Log[] = []
     for (const eventSignature of eventSignatures) {
+      await sleep(2_500)
       console.log(
         `Fetching historical logs for ${this.contractName} ${eventSignature} (${++i}/${eventSignatures.length})`
       )
