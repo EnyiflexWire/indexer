@@ -22,6 +22,6 @@ declare module 'bun' {
   interface Env extends EnvironmentVariables {}
 }
 
-declare namespace NodeJS {
+declare namespace NodeJs {
   interface ProcessEnv extends EnvironmentVariables {}
 }

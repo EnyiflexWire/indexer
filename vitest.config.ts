@@ -1,12 +1,13 @@
 import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
-  resolve: {
-    alias: {
-      '#': './src'
+export const defineConf = () =>
+  defineConfig({
+    resolve: {
+      alias: {
+        '#': './src'
+      }
+    },
+    test: {
+      setupFiles: ['./tests/setup.ts']
     }
-  },
-  test: {
-    setupFiles: ['./tests/setup.ts']
-  }
-})
+  })

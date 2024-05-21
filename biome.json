@@ -30,27 +30,30 @@
         "useConst": "off",
         "useBlockStatements": "off",
         "useSelfClosingElements": "off",
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "useNamingConvention": "off",
+        "noParameterProperties": "off",
+        "noNamespace": "off"
       },
       "nursery": {
         "all": true,
-        "useAwait": "off",
-        "noUnusedImports": "off",
-        "noUselessTernary": "off",
         "noNodejsModules": "off",
         "useImportRestrictions": "off",
-        "noEmptyBlockStatements": "off"
+        "noConsole": "off",
+        "noUndeclaredDependencies": "off"
       },
       "complexity": {
         "all": true,
         "noForEach": "off",
         "useLiteralKeys": "off",
-        "noUselessEmptyExport": "off"
+        "noUselessEmptyExport": "off",
+        "noUselessTernary": "off"
       },
       "correctness": {
         "all": true,
         "noUnusedVariables": "off",
-        "noUndeclaredVariables": "off"
+        "noUndeclaredVariables": "off",
+        "noUnusedImports": "off"
       },
       "performance": {
         "all": true,
@@ -61,7 +64,9 @@
         "noRedeclare": "off",
         "noConsoleLog": "off",
         "noExplicitAny": "off",
-        "noEmptyInterface": "off"
+        "noEmptyInterface": "off",
+        "useAwait": "off",
+        "noEmptyBlockStatements": "off"
       }
     }
   },

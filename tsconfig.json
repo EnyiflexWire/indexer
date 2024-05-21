@@ -30,7 +30,7 @@
     "baseUrl": ".",
     "paths": {
       "#/*": ["src/*"]
-    },
+    }
   },
   "include": ["src", "scripts"],
   "files": ["environment.d.ts", "reset.d.ts", "vitest.config.ts"]

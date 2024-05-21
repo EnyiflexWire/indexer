@@ -99,6 +99,8 @@ BEGIN
         v.record_type = 1 AND
         -- match the address parameter
         v.record_data = addr_bytea AND
+        -- Valid record data lookup
+        v.user IS NOT NULL AND
         -- NOT blocked
         v.has_block_tag = FALSE AND
         -- NOT muted
