@@ -1,3 +1,3 @@
-import * as vi from 'vitest'
+import { getRunningMode } from 'vitest'
 
-console.log(vi.getRunningMode())
+console.log(getRunningMode())

@@ -1,6 +1,4 @@
 import { asyncExitHook } from 'exit-hook'
-import { efpAccountMetadataAbi, efpListMinterAbi, efpListRecordsAbi, efpListRegistryAbi } from '#/abi'
-import type { EvmClient } from '#/clients'
 import { env } from '#/env'
 import { logger } from '#/logger'
 import { ContractEventPublisher } from '#/pubsub/publisher/contract-event-publisher'
@@ -8,6 +6,8 @@ import { EventInterleaver } from '#/pubsub/publisher/event-interleaver'
 import type { EventPublisher } from '#/pubsub/publisher/interface'
 import { EventUploader } from '#/pubsub/subscriber/event-uploader'
 import { raise, sleep } from '#/utilities'
+import { efpAccountMetadataAbi, efpListMinterAbi, efpListRecordsAbi, efpListRegistryAbi } from './abi/generated/index'
+import type { EvmClient } from './clients/viem/index'
 
 export async function watchAllEfpContractEvents({ client }: { client: EvmClient }) {
   try {

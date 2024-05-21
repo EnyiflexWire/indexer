@@ -31,7 +31,9 @@
         "useBlockStatements": "off",
         "useSelfClosingElements": "off",
         "noUnusedTemplateLiteral": "off",
-        "useNamingConvention": "off"
+        "useNamingConvention": "off",
+        "noParameterProperties": "off",
+        "noNamespace": "off"
       },
       "nursery": {
         "all": true,

@@ -1,5 +1,5 @@
 import { type Abi, type Log, parseAbiItem } from 'viem'
-import type { EvmClient } from '#/clients'
+import type { EvmClient } from '#/clients/viem/index'
 import { logger } from '#/logger'
 import { type Event, compareEvents, createEventSignature, decodeLogtoEvent } from '#/pubsub/event'
 import type { EventSubscriber } from '#/pubsub/subscriber/interface'

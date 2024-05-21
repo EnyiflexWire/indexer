@@ -1,4 +1,4 @@
-import type { EvmClient } from '#/clients'
+import type { EvmClient } from '#/clients/viem/index'
 import { raise } from '#/utilities'
 
 /**
