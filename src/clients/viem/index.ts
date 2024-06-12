@@ -1,6 +1,6 @@
 import { http, createPublicClient, createTestClient, fallback, publicActions, walletActions, webSocket } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { foundry, mainnet, optimism, optimismSepolia, sepolia } from 'viem/chains'
+import { baseSepolia, foundry, mainnet, optimism, optimismSepolia, sepolia } from 'viem/chains'
 import { env } from '#/env.ts'
 
 export const evmClients = {
@@ -66,9 +66,9 @@ export const evmClients = {
       chain: sepolia,
       transport: fallback(
         [
+          http(`https://eth-sepolia.g.alchemy.com/v2/${env.SEPOLIA_ALCHEMY_ID}`),
           http(`https://rpc.ankr.com/eth_sepolia/${env.ANKR_ID}`),
           http(`https://sepolia.infura.io/v3/${env.INFURA_ID}`),
-          http(`https://eth-sepolia.g.alchemy.com/v2/${env.SEPOLIA_ALCHEMY_ID}`),
           webSocket(`wss://sepolia.infura.io/ws/v3/${env.INFURA_ID}`),
           webSocket(`wss://eth-sepolia.g.alchemy.com/v2/${env.SEPOLIA_ALCHEMY_ID}`)
         ],
@@ -83,9 +83,24 @@ export const evmClients = {
       chain: optimismSepolia,
       transport: fallback(
         [
+          http(`https://opt-sepolia.g.alchemy.com/v2/${env.OP_SEPOLIA_ALCHEMY_ID}`),
           http(`https://optimism-sepolia.infura.io/v3/${env.INFURA_ID}`),
           http('https://sepolia.optimism.io'),
           http('https://sepolia-rollup.arbitrum.io/rpc')
+        ],
+        { rank: true }
+      ),
+      batch: { multicall: true }
+    }).extend(walletActions),
+  '84532': () =>
+    createPublicClient({
+      key: 'base-sepolia-client',
+      name: 'Base Sepolia Client',
+      chain: baseSepolia,
+      transport: fallback(
+        [
+          http(`https://base-sepolia.g.alchemy.com/v2/${env.BASE_SEPOLIA_ALCHEMY_ID}`),
+          http(`https://sepolia.base.org`)
         ],
         { rank: true }
       ),
