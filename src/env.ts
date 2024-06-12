@@ -8,6 +8,8 @@ export const env = Object.freeze({
   ANKR_ID: getEnvVariable('ANKR_ID'),
   INFURA_ID: getEnvVariable('INFURA_ID'),
   SEPOLIA_ALCHEMY_ID: getEnvVariable('SEPOLIA_ALCHEMY_ID'),
+  BASE_SEPOLIA_ALCHEMY_ID: getEnvVariable('BASE_SEPOLIA_ALCHEMY_ID'),
+  OP_SEPOLIA_ALCHEMY_ID: getEnvVariable('OP_SEPOLIA_ALCHEMY_ID'),
   OPTIMISM_ALCHEMY_ID: getEnvVariable('OPTIMISM_ALCHEMY_ID'),
   ETHEREUM_LOCAL_NODE_URL: getEnvVariable('ETHEREUM_LOCAL_NODE_URL'),
   DATABASE_URL: getEnvVariable('DATABASE_URL'),
