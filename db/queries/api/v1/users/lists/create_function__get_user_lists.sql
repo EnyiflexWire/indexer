@@ -20,7 +20,9 @@ BEGIN
 RETURN QUERY
     SELECT list.token_id as efp_list_nft_token_id
 	FROM public.efp_lists as list
-	WHERE list.user = normalized_addr;
+	WHERE list.user = normalized_addr
+    OR list.manager = normalized_addr
+    OR list.owner = normalized_addr;
 END;
 $$;
 

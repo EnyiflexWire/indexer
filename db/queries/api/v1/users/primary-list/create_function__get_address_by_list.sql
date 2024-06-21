@@ -14,13 +14,12 @@ DECLARE
     primary_list_address VARCHAR(42);
 	primary_list_id VARCHAR;
 BEGIN
-	primary_list_id = to_hex(p_list_id);
+	primary_list_id = p_list_id;
 
-    SELECT v.address
-	INTO primary_list_address
-	FROM public.efp_account_metadata AS v
-	WHERE v.value = '0x' || LPAD(primary_list_id, 64, '0')
-	AND v.key = 'primary-list';
+    SELECT v.user 
+    INTO primary_list_address
+    FROM efp_lists as v 
+    WHERE token_id = primary_list_id;
 
     RETURN primary_list_address;
 END;

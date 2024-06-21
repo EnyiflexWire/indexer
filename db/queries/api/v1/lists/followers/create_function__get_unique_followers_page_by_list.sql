@@ -1,6 +1,6 @@
 --migrate:up
 -------------------------------------------------------------------------------
--- Function: get_unique_followers_by_list
+-- Function: get_unique_followers_page_by_list
 -- Description: Retrieves a distinct list of followers for a specified list id,
 --              de-duplicating by 'list_user'. This ensures each follower is
 --              listed once, even if associated with multiple tokens.
@@ -16,7 +16,7 @@
 --          representing the list token ID, list user, and tags.
 -------------------------------------------------------------------------------
 CREATE
-OR REPLACE FUNCTION query.get_unique_followers_by_list(p_list_id INT, p_limit INT, p_offset INT) RETURNS TABLE (
+OR REPLACE FUNCTION query.get_unique_followers_page_by_list(p_list_id INT, p_limit INT, p_offset INT) RETURNS TABLE (
   follower types.eth_address,
   efp_list_nft_token_id types.efp_list_nft_token_id,
   tags types.efp_tag [],
@@ -33,13 +33,18 @@ DECLARE
     t_list_storage_location_storage_slot types.efp_list_storage_location_slot;
 BEGIN
 
-	primary_list_token_id = to_hex(p_list_id);
+	-- primary_list_token_id = to_hex(p_list_id);
 
-	SELECT v.address
-	INTO normalized_addr
-	FROM public.efp_account_metadata AS v
-	WHERE v.value = '0x' || LPAD(primary_list_token_id::varchar, 64, '0')
-	AND v.key = 'primary-list';
+	-- SELECT v.address
+	-- INTO normalized_addr
+	-- FROM public.efp_account_metadata AS v
+	-- WHERE v.value = '0x' || LPAD(primary_list_token_id::varchar, 64, '0')
+	-- AND v.key = 'primary-list';
+    primary_list_token_id = p_list_id;
+    SELECT v.user 
+    INTO normalized_addr
+    FROM efp_lists as v 
+    WHERE token_id = primary_list_token_id;
 
 	addr_bytea := public.unhexlify(normalized_addr);
 

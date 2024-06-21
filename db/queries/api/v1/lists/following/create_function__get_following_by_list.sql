@@ -30,18 +30,7 @@ DECLARE
     list_storage_location_contract_address VARCHAR(42);
     list_storage_location_storage_slot types.efp_list_storage_location_slot;
 BEGIN
-	primary_list_token_id = to_hex(p_list_id);
-
-	SELECT v.address
-	INTO normalized_addr
-	FROM public.efp_account_metadata AS v
-	WHERE v.value = '0x' || LPAD(primary_list_token_id::varchar, 64, '0')
-	AND v.key = 'primary-list';
-
-    -- If no address with primary list token id is found, return an empty result set
-    IF normalized_addr IS NULL THEN
-        RETURN; -- Exit the function without returning any rows
-    END IF;
+    primary_list_token_id = p_list_id;
 
     -- Now determine the list storage location for the primary list token id
     SELECT
@@ -88,3 +77,6 @@ BEGIN
         v.record_data ASC;
 END;
 $$;
+
+
+--migrate:down
