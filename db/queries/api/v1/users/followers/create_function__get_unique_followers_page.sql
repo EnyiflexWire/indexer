@@ -120,7 +120,7 @@ BEGIN
     HAVING
         (SELECT get_primary_list FROM query.get_primary_list(v.user)) = v.token_id
     ORDER BY
-        v.user ASC;
+        v.user ASC
     LIMIT p_limit
     OFFSET p_offset;
 
