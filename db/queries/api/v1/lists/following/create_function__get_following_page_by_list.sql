@@ -73,6 +73,7 @@ BEGIN
     ORDER BY
         v.record_version ASC,
         v.record_type ASC,
+        v.updated_at DESC,
         v.record_data ASC
     LIMIT p_limit
     OFFSET p_offset;
