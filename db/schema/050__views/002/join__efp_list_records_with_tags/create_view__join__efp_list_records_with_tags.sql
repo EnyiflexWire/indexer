@@ -12,6 +12,7 @@ SELECT
   r.record_version,
   r.record_type,
   r.record_data,
+  r.updated_at,
   ARRAY_AGG(t.tag) FILTER (
     WHERE
       t.tag IS NOT NULL
