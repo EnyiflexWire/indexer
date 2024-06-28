@@ -12,7 +12,7 @@ CREATE
 OR REPLACE FUNCTION query.get_address_by_list (p_list_id INT) RETURNS VARCHAR(42) AS $$
 DECLARE
     primary_list_address VARCHAR(42);
-	primary_list_id VARCHAR;
+	primary_list_id INT;
 BEGIN
 	primary_list_id = p_list_id;
 
