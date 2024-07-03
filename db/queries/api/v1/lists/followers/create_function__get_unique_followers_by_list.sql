@@ -22,7 +22,8 @@ OR REPLACE FUNCTION query.get_unique_followers_by_list(p_list_id INT) RETURNS TA
   tags types.efp_tag [],
   is_following BOOLEAN,
   is_blocked BOOLEAN,
-  is_muted BOOLEAN
+  is_muted BOOLEAN,
+  updated_at TIMESTAMP WITH TIME ZONE
 ) LANGUAGE plpgsql AS $$
 DECLARE
     normalized_addr types.eth_address;
@@ -72,14 +73,16 @@ BEGIN
         COALESCE(v.tags, '{}') AS tags,
         COALESCE(following_info.is_following, FALSE) AS is_following,
         COALESCE(following_info.is_blocked, FALSE) AS is_blocked,
-        COALESCE(following_info.is_muted, FALSE) AS is_muted
+        COALESCE(following_info.is_muted, FALSE) AS is_muted,
+        following_info.updated_at
     FROM
         public.view__join__efp_list_records_with_nft_manager_user_tags AS v
     LEFT JOIN LATERAL (
         SELECT
             NOT (following.has_block_tag OR following.has_mute_tag) AS is_following,
             following.has_block_tag AS is_blocked,
-            following.has_mute_tag AS is_muted
+            following.has_mute_tag AS is_muted,
+            following.updated_at AS updated_at
         FROM
             public.view__join__efp_list_records_with_nft_manager_user_tags AS following
         WHERE
@@ -99,11 +102,11 @@ BEGIN
         -- match the address parameter
         v.record_data = addr_bytea AND
         -- Valid record data lookup
-        v.user IS NOT NULL AND
+        v.user IS NOT NULL --AND
         -- NOT blocked
-        v.has_block_tag = FALSE AND
+        -- v.has_block_tag = FALSE AND
         -- NOT muted
-        v.has_mute_tag = FALSE
+        -- v.has_mute_tag = FALSE
     GROUP BY
         v.user,
         v.token_id,
@@ -113,7 +116,8 @@ BEGIN
         v.tags,
         following_info.is_following,
         following_info.is_blocked,
-        following_info.is_muted
+        following_info.is_muted,
+        following_info.updated_at
     HAVING
         (SELECT get_primary_list FROM query.get_primary_list(v.user)) = v.token_id
     ORDER BY

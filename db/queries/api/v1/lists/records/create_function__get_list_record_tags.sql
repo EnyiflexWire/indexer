@@ -15,7 +15,8 @@ OR REPLACE FUNCTION query.get_list_record_tags (token_id BIGINT) RETURNS TABLE (
   record_version types.uint8,
   record_type types.uint8,
   record_data BYTEA,
-  tags types.efp_tag []
+  tags types.efp_tag [],
+  updated_at TIMESTAMP WITH TIME ZONE
 ) LANGUAGE plpgsql AS $$
 BEGIN
     RETURN QUERY
@@ -23,7 +24,8 @@ BEGIN
       record_tags.record_version,
       record_tags.record_type,
       record_tags.record_data,
-      record_tags.tags
+      record_tags.tags,
+      record_tags.updated_at
     FROM public.view__join__efp_list_records_with_tags AS record_tags
     JOIN query.get_list_storage_location(token_id) AS list_storage_location
     ON record_tags.chain_id = list_storage_location.chain_id

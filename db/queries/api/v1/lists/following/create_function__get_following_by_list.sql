@@ -21,7 +21,8 @@ OR REPLACE FUNCTION query.get_following_by_list (p_list_id INT) RETURNS TABLE (
   record_version types.uint8,
   record_type types.uint8,
   following_address types.eth_address,
-  tags types.efp_tag []
+  tags types.efp_tag [],
+  updated_at TIMESTAMP WITH TIME ZONE
 ) LANGUAGE plpgsql AS $$
 DECLARE
     normalized_addr types.eth_address;
@@ -53,7 +54,8 @@ BEGIN
         v.record_version,
         v.record_type,
         PUBLIC.hexlify(v.record_data)::types.eth_address AS following_address,
-        COALESCE(v.tags, '{}') AS tags
+        COALESCE(v.tags, '{}') AS tags,
+		v.updated_at
     FROM
         public.view__join__efp_list_records_with_tags AS v
     WHERE
