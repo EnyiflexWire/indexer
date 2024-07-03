@@ -19,6 +19,7 @@ SELECT
   record_tags.record_type,
   record_tags.record_data,
   record_tags.tags,
+  record_tags.updated_at,
   CASE
     WHEN 'block' = ANY (record_tags.tags) THEN TRUE
     ELSE FALSE
