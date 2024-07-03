@@ -16,7 +16,7 @@
 --          representing the list token ID, list user, and tags.
 -------------------------------------------------------------------------------
 CREATE
-OR REPLACE FUNCTION query.get_unique_followers_by_list(p_list_id INT) RETURNS TABLE (
+OR REPLACE FUNCTION query.get_all_unique_followers_by_list(p_list_id INT) RETURNS TABLE (
   follower types.eth_address,
   efp_list_nft_token_id types.efp_list_nft_token_id,
   tags types.efp_tag [],
@@ -102,11 +102,7 @@ BEGIN
         -- match the address parameter
         v.record_data = addr_bytea AND
         -- Valid record data lookup
-        v.user IS NOT NULL AND
-        -- NOT blocked
-        v.has_block_tag = FALSE AND
-        -- NOT muted
-        v.has_mute_tag = FALSE
+        v.user IS NOT NULL 
     GROUP BY
         v.user,
         v.token_id,
