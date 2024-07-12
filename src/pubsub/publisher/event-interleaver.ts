@@ -2,8 +2,8 @@ import BinaryHeap from 'heap-js'
 import { logger } from '#/logger'
 import { type Event, compareEvents } from '#/pubsub/event'
 import type { EventSubscriber } from '#/pubsub/subscriber/interface'
-import type { EventPublisher } from './interface'
 import { sleep } from '#/utilities/index'
+import type { EventPublisher } from './interface'
 
 type ReceivedEvent = {
   event: Event
