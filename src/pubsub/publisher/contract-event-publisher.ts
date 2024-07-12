@@ -60,7 +60,7 @@ export class ContractEventPublisher implements EventPublisher {
     let i = 0
     const logs: Log[] = []
     for (const eventSignature of eventSignatures) {
-      await sleep(2_500)
+      await sleep(500)
       console.log(
         `Fetching historical logs for ${this.contractName} ${eventSignature} (${++i}/${eventSignatures.length})`
       )

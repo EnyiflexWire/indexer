@@ -114,6 +114,7 @@ BEGIN
         v.record_type,
         v.record_data,
         v.tags,
+        v.updated_at,
         following_info.is_following,
         following_info.is_blocked,
         following_info.is_muted

@@ -2,6 +2,7 @@ import BinaryHeap from 'heap-js'
 import { logger } from '#/logger'
 import { type Event, compareEvents } from '#/pubsub/event'
 import type { EventSubscriber } from '#/pubsub/subscriber/interface'
+import { sleep } from '#/utilities/index'
 import type { EventPublisher } from './interface'
 
 type ReceivedEvent = {
@@ -165,6 +166,7 @@ export class EventInterleaver implements EventPublisher, EventSubscriber {
         await this.#propagateBatch(batch)
         batch = []
       }
+      await sleep(1000)
     }
 
     // Propagate any remaining events in the last batch
