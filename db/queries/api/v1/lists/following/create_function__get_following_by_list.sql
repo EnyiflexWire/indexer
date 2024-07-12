@@ -55,7 +55,7 @@ BEGIN
         v.record_type,
         PUBLIC.hexlify(v.record_data)::types.eth_address AS following_address,
         COALESCE(v.tags, '{}') AS tags,
-		v.updated_at
+        v.updated_at
     FROM
         public.view__join__efp_list_records_with_tags AS v
     WHERE
