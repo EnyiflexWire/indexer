@@ -23,15 +23,15 @@ BEGIN
 	    FROM query.get_all_unique_followers_by_list(p_list_id) v
 	    WHERE v.tags && p_tags
 	    ORDER BY  
-			(CASE WHEN direction = 'asc' THEN updated_at END) asc,
-			(CASE WHEN direction = 'desc' THEN updated_at END) desc;
+			(CASE WHEN direction = 'asc' THEN v.updated_at END) asc,
+			(CASE WHEN direction = 'desc' THEN v.updated_at END) desc;
 	ELSE
         RETURN QUERY
 	    SELECT * 
 	    FROM query.get_all_unique_followers_by_list(p_list_id) v
 	    ORDER BY  
-			(CASE WHEN direction = 'asc' THEN updated_at END) asc,
-			(CASE WHEN direction = 'desc' THEN updated_at END) desc;
+			(CASE WHEN direction = 'asc' THEN v.updated_at END) asc,
+			(CASE WHEN direction = 'desc' THEN v.updated_at END) desc;
 	END IF;
 END;
 $$;

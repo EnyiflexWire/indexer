@@ -1142,51 +1142,6 @@ export const efpListRegistryAbi = [
     anonymous: false,
     inputs: [
       {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true
-      },
-      {
-        name: 'approved',
-        internalType: 'address',
-        type: 'address',
-        indexed: true
-      },
-      {
-        name: 'tokenId',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: true
-      }
-    ],
-    name: 'Approval'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true
-      },
-      {
-        name: 'operator',
-        internalType: 'address',
-        type: 'address',
-        indexed: true
-      },
-      { name: 'approved', internalType: 'bool', type: 'bool', indexed: false }
-    ],
-    name: 'ApprovalForAll'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
         name: 'fromTokenId',
         internalType: 'uint256',
         type: 'uint256',
@@ -1202,19 +1157,6 @@ export const efpListRegistryAbi = [
       { name: 'to', internalType: 'address', type: 'address', indexed: true }
     ],
     name: 'ConsecutiveTransfer'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'maxMintBatchSize',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false
-      }
-    ],
-    name: 'MaxMintBatchSizeChange'
   },
   {
     type: 'event',
@@ -1247,45 +1189,6 @@ export const efpListRegistryAbi = [
       }
     ],
     name: 'OwnershipTransferred'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'account',
-        internalType: 'address',
-        type: 'address',
-        indexed: false
-      }
-    ],
-    name: 'Paused'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'priceOracle',
-        internalType: 'address',
-        type: 'address',
-        indexed: false
-      }
-    ],
-    name: 'PriceOracleChange'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'tokenURIProvider',
-        internalType: 'address',
-        type: 'address',
-        indexed: false
-      }
-    ],
-    name: 'TokenURIProviderChange'
   },
   {
     type: 'event',
