@@ -1142,40 +1142,6 @@ export const efpListRegistryAbi = [
     anonymous: false,
     inputs: [
       {
-        name: 'fromTokenId',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: true
-      },
-      {
-        name: 'toTokenId',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false
-      },
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true }
-    ],
-    name: 'ConsecutiveTransfer'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'mintState',
-        internalType: 'enum IEFPListRegistry.MintState',
-        type: 'uint8',
-        indexed: false
-      }
-    ],
-    name: 'MintStateChange'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
         name: 'previousOwner',
         internalType: 'address',
         type: 'address',
