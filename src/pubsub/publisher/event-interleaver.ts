@@ -148,7 +148,7 @@ export class EventInterleaver implements EventPublisher, EventSubscriber {
 
   async #processQueue(): Promise<void> {
     const now = new Date()
-    const batchSize = 100
+    const batchSize = 10
     // Muted by user
     // biome-ignore lint/nursery/noEvolvingTypes: <explanation>
     let batch = []
