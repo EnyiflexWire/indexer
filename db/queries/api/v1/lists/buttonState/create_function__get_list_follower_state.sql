@@ -36,11 +36,10 @@ BEGIN
     FROM efp_lists as v 
     WHERE token_id = p_account_list_id;
 
-	SELECT v.token_id 
+    SELECT v.primary_list_token_id
     INTO follower_list_id
-    FROM efp_lists as v 
-    WHERE v.user = follower_addr;
-
+    FROM public.view__events__efp_accounts_with_primary_list AS v
+    WHERE v.address = follower_addr;
 
 	SELECT
       v.efp_list_storage_location_chain_id,
