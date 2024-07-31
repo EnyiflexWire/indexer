@@ -16,7 +16,7 @@
 --          version, record type, and following address.
 -------------------------------------------------------------------------------
 CREATE
-OR REPLACE FUNCTION query.get_following_by_list (p_list_id INT) RETURNS TABLE (
+OR REPLACE FUNCTION query.get_all_following_by_list (p_list_id INT) RETURNS TABLE (
   efp_list_nft_token_id BIGINT,
   record_version types.uint8,
   record_type types.uint8,
@@ -55,7 +55,7 @@ BEGIN
         v.record_type,
         PUBLIC.hexlify(v.record_data)::types.eth_address AS following_address,
         COALESCE(v.tags, '{}') AS tags,
-        v.updated_at
+		v.updated_at
     FROM
         public.view__join__efp_list_records_with_tags AS v
     WHERE
@@ -67,12 +67,7 @@ BEGIN
         -- address record type (1)
         v.record_type = 1 AND
         -- where the address record data field is a valid address
-        public.is_valid_address(v.record_data) AND
-        -- NOT blocked or muted
-        NOT EXISTS (
-            SELECT 1 FROM unnest(v.tags) as tag
-            WHERE tag IN ('block', 'mute')
-        )
+        public.is_valid_address(v.record_data)
     ORDER BY
         v.record_version ASC,
         v.record_type ASC,

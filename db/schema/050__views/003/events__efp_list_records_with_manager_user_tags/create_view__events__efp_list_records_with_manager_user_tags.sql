@@ -19,6 +19,7 @@ SELECT
   record_tags.record_type,
   record_tags.record_data,
   record_tags.tags,
+  record_tags.updated_at,
   CASE
     WHEN 'block' = ANY (record_tags.tags) THEN TRUE
     ELSE FALSE
@@ -31,7 +32,8 @@ FROM
   PUBLIC.view__join__efp_list_records_with_tags AS record_tags
   LEFT JOIN PUBLIC.efp_lists AS l ON l.list_storage_location_chain_id = record_tags.chain_id
   AND l.list_storage_location_contract_address = record_tags.contract_address
-  AND l.list_storage_location_slot = record_tags.slot;
+  AND l.list_storage_location_slot = record_tags.slot
+  INNER JOIN efp_account_metadata meta ON l.user = meta.address AND l.token_id = convert_hex_to_bigint(meta.value);
 
 
 
