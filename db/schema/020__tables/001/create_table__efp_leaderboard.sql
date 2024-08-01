@@ -4,8 +4,8 @@
 -------------------------------------------------------------------------------
 CREATE TABLE
   public.efp_leaderboard (
-    "name" TEXT NOT NULL,
     "address" types.eth_address NOT NULL,
+    "name" TEXT,
     "avatar" TEXT,
     "mutuals" BIGINT,
     "following" BIGINT,
