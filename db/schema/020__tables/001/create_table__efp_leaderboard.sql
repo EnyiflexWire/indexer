@@ -7,17 +7,18 @@ CREATE TABLE
     "address" types.eth_address NOT NULL,
     "name" TEXT,
     "avatar" TEXT,
-    "mutuals" BIGINT,
-    "following" BIGINT,
-    "followers" BIGINT,
-    "blocks" BIGINT,
+    "mutuals_rank" BIGINT,
+    "mutuals" BIGINT DEFAULT 0,
+    "following" BIGINT DEFAULT 0,
+    "followers" BIGINT DEFAULT 0,
+    "blocks" BIGINT DEFAULT 0,
     created_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY ("address", "name")
+      PRIMARY KEY ("address")
   );
 
 CREATE TRIGGER
