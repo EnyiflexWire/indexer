@@ -149,7 +149,7 @@ export class EventInterleaver implements EventPublisher, EventSubscriber {
 
   async #processQueue(): Promise<void> {
     const now = new Date()
-    const batchSize = 10
+    const batchSize = 100
     // Muted by user
     // biome-ignore lint/nursery/noEvolvingTypes: <explanation>
     let batch = []
@@ -166,7 +166,7 @@ export class EventInterleaver implements EventPublisher, EventSubscriber {
         await this.#propagateBatch(batch)
         batch = []
       }
-      await sleep(1000)
+      //   await sleep(1000)
     }
 
     // Propagate any remaining events in the last batch
