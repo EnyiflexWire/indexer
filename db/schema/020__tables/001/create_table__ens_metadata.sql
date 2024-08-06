@@ -19,7 +19,7 @@ CREATE TABLE
       updated_at TIMESTAMP
     WITH
       TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY ("address", "name")
+      PRIMARY KEY ("address")
   );
 
 CREATE TRIGGER
