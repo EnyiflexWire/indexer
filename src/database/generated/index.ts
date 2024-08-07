@@ -41,6 +41,22 @@ export interface EfpAccountMetadata {
   value: string
 }
 
+export interface EfpLeaderboard {
+  address: string
+  avatar: string | null
+  blocks: Generated<Int8 | null>
+  blocks_rank: Int8 | null
+  created_at: Generated<Timestamp | null>
+  followers: Generated<Int8 | null>
+  followers_rank: Int8 | null
+  following: Generated<Int8 | null>
+  following_rank: Int8 | null
+  mutuals: Generated<Int8 | null>
+  mutuals_rank: Int8 | null
+  name: string | null
+  updated_at: Generated<Timestamp | null>
+}
+
 export interface EfpListMetadata {
   chain_id: Int8
   contract_address: string
@@ -165,6 +181,11 @@ export interface ViewEventsEfpContracts {
   owner: string | null
 }
 
+export interface ViewEventsEfpLeaderboardMutuals {
+  leader: string | null
+  mutuals: Int8 | null
+}
+
 export interface ViewEventsEfpListMetadata {
   block_number: Int8 | null
   chain_id: Int8 | null
@@ -261,6 +282,20 @@ export interface ViewEventsLatestRecordTags {
   tag: string | null
 }
 
+export interface ViewJoinEfpLeaderboard {
+  address: string | null
+  blocks: Int8 | null
+  blocks_rank: Int8 | null
+  ens_avatar: string | null
+  ens_name: string | null
+  followers: Int8 | null
+  followers_rank: Int8 | null
+  following: Int8 | null
+  following_rank: Int8 | null
+  mutuals: Int8 | null
+  mutuals_rank: Int8 | null
+}
+
 export interface ViewJoinEfpListRecordsWithNftManagerUserTags {
   has_block_tag: boolean | null
   has_mute_tag: boolean | null
@@ -300,6 +335,7 @@ export interface ViewLatestFollows {
 export interface DB {
   contracts: Contracts
   efp_account_metadata: EfpAccountMetadata
+  efp_leaderboard: EfpLeaderboard
   efp_list_metadata: EfpListMetadata
   efp_list_nfts: EfpListNfts
   efp_list_ops: EfpListOps
@@ -312,6 +348,7 @@ export interface DB {
   view__events__efp_account_metadata: ViewEventsEfpAccountMetadata
   view__events__efp_accounts_with_primary_list: ViewEventsEfpAccountsWithPrimaryList
   view__events__efp_contracts: ViewEventsEfpContracts
+  view__events__efp_leaderboard_mutuals: ViewEventsEfpLeaderboardMutuals
   view__events__efp_list_metadata: ViewEventsEfpListMetadata
   view__events__efp_list_nfts: ViewEventsEfpListNfts
   view__events__efp_list_ops: ViewEventsEfpListOps
@@ -320,6 +357,7 @@ export interface DB {
   view__events__efp_list_records: ViewEventsEfpListRecords
   view__events__efp_list_storage_locations: ViewEventsEfpListStorageLocations
   view__events__latest_record_tags: ViewEventsLatestRecordTags
+  view__join__efp_leaderboard: ViewJoinEfpLeaderboard
   view__join__efp_list_records_with_nft_manager_user_tags: ViewJoinEfpListRecordsWithNftManagerUserTags
   view__join__efp_list_records_with_tags: ViewJoinEfpListRecordsWithTags
   view__latest_follows: ViewLatestFollows
