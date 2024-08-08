@@ -26,21 +26,21 @@ BEGIN
     RETURN QUERY
     
     SELECT 
-		  address,
-		  name,
-		  avatar,
-		  mutuals_rank,
-		  followers_rank,
-		  following_rank,
-		  blocks_rank,
-		  mutuals,
-		  following,
-		  followers,
-		  blocks,
-		  updated_at
-	FROM public.efp_leaderboard 
-	WHERE address ~ p_term 
-	OR name ~ p_term;
+        lb.address,
+        lb.name,
+        lb.avatar,
+        lb.mutuals_rank,
+        lb.followers_rank,
+        lb.following_rank,
+        lb.blocks_rank,
+        lb.mutuals,
+        lb.following,
+        lb.followers,
+        lb.blocks,
+        lb.updated_at
+    FROM public.efp_leaderboard lb 
+    WHERE lb.address ~ p_term 
+    OR lb.name ~ p_term;
 END;
 $$;
 
