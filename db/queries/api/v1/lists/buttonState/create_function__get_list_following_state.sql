@@ -52,7 +52,7 @@ BEGIN
 		COALESCE(NOT (record.has_block_tag OR record.has_mute_tag), FALSE) AS is_following,
 		COALESCE(record.has_block_tag, FALSE) AS is_blocked,
 		COALESCE(record.has_mute_tag, FALSE) AS is_muted
-	FROM public.view__join__efp_list_records_with_nft_manager_user_tags as record
+	FROM public.view__join__efp_list_records_with_nft_manager_user_tags_no_prim as record
 	WHERE 
 		lsl_storage_slot = record.list_storage_location_slot AND
 		lsl_contract_address = record.list_storage_location_contract_address AND
