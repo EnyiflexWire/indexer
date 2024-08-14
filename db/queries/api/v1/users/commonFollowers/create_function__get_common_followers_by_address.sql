@@ -27,11 +27,15 @@ SELECT
 FROM public.view__join__efp_list_records_with_nft_manager_user_tags r
 INNER JOIN public.efp_leaderboard l ON l.address = public.hexlify(r.record_data)
     AND r.user = normalized_u_addr -- user 1
+    AND r.has_block_tag = FALSE
+    AND r.has_block_tag = FALSE
     AND EXISTS(
         SELECT 1
         FROM public.view__join__efp_list_records_with_nft_manager_user_tags r2 
         WHERE r2.user = public.hexlify(r.record_data) 
         AND public.hexlify(r2.record_data) = normalized_t_addr -- user 2 
+        AND r2.has_block_tag = FALSE
+        AND r2.has_block_tag = FALSE
     );
 
 END;
