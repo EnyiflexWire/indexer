@@ -125,6 +125,14 @@ export interface EfpLists {
   user: string
 }
 
+export interface EfpRecommended {
+  address: string
+  avatar: string | null
+  class: string | null
+  created_at: Generated<Timestamp | null>
+  name: string
+}
+
 export interface EnsMetadata {
   address: string
   avatar: string | null
@@ -156,6 +164,20 @@ export interface Events {
 
 export interface SchemaMigrations {
   version: string
+}
+
+export interface ViewDiscover {
+  address: string | null
+  avatar: string | null
+  followers: Int8 | null
+  following: Int8 | null
+  name: string | null
+}
+
+export interface ViewEfpStats {
+  address_count: Int8 | null
+  list_count: Int8 | null
+  list_op_count: Int8 | null
 }
 
 export interface ViewEventsEfpAccountMetadata {
@@ -273,6 +295,14 @@ export interface ViewEventsEfpListStorageLocations {
   efp_list_storage_location_version: number | null
 }
 
+export interface ViewEventsEfpRecommended {
+  address: string | null
+  avatar: string | null
+  class: string | null
+  created_at: Timestamp | null
+  name: string | null
+}
+
 export interface ViewEventsLatestRecordTags {
   chain_id: Int8 | null
   contract_address: string | null
@@ -297,6 +327,26 @@ export interface ViewJoinEfpLeaderboard {
 }
 
 export interface ViewJoinEfpListRecordsWithNftManagerUserTags {
+  has_block_tag: boolean | null
+  has_mute_tag: boolean | null
+  list_storage_location_chain_id: Int8 | null
+  list_storage_location_contract_address: string | null
+  list_storage_location_slot: Buffer | null
+  manager: string | null
+  nft_chain_id: Int8 | null
+  nft_contract_address: string | null
+  owner: string | null
+  record: Buffer | null
+  record_data: Buffer | null
+  record_type: number | null
+  record_version: number | null
+  tags: string[] | null
+  token_id: Int8 | null
+  updated_at: Timestamp | null
+  user: string | null
+}
+
+export interface ViewJoinEfpListRecordsWithNftManagerUserTagsNoPrim {
   has_block_tag: boolean | null
   has_mute_tag: boolean | null
   list_storage_location_chain_id: Int8 | null
@@ -342,9 +392,12 @@ export interface DB {
   efp_list_record_tags: EfpListRecordTags
   efp_list_records: EfpListRecords
   efp_lists: EfpLists
+  efp_recommended: EfpRecommended
   ens_metadata: EnsMetadata
   events: Events
   schema_migrations: SchemaMigrations
+  view__discover: ViewDiscover
+  view__efp_stats: ViewEfpStats
   view__events__efp_account_metadata: ViewEventsEfpAccountMetadata
   view__events__efp_accounts_with_primary_list: ViewEventsEfpAccountsWithPrimaryList
   view__events__efp_contracts: ViewEventsEfpContracts
@@ -356,9 +409,11 @@ export interface DB {
   view__events__efp_list_record_tags: ViewEventsEfpListRecordTags
   view__events__efp_list_records: ViewEventsEfpListRecords
   view__events__efp_list_storage_locations: ViewEventsEfpListStorageLocations
+  view__events__efp_recommended: ViewEventsEfpRecommended
   view__events__latest_record_tags: ViewEventsLatestRecordTags
   view__join__efp_leaderboard: ViewJoinEfpLeaderboard
   view__join__efp_list_records_with_nft_manager_user_tags: ViewJoinEfpListRecordsWithNftManagerUserTags
+  view__join__efp_list_records_with_nft_manager_user_tags_no_prim: ViewJoinEfpListRecordsWithNftManagerUserTagsNoPrim
   view__join__efp_list_records_with_tags: ViewJoinEfpListRecordsWithTags
   view__latest_follows: ViewLatestFollows
 }
