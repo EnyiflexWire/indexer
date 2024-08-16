@@ -5,7 +5,7 @@
 CREATE
 OR REPLACE VIEW PUBLIC.view__efp_stats AS
 SELECT 
-    COUNT(DISTINCT (hexlify(record_data))) as address_count, 
+    COUNT(DISTINCT (public.hexlify(record_data))) as address_count, 
     MAX (token_id) as list_count, 
     COUNT(*) as list_op_count 
 FROM 

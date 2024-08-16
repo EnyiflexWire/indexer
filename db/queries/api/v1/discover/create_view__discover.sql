@@ -11,7 +11,7 @@ SELECT
     l.followers,
     l.following 
 FROM public.view__latest_follows r
-LEFT JOIN efp_leaderboard l ON l.address = r.address;
+LEFT JOIN public.efp_leaderboard l ON l.address = r.address;
 
 
 
