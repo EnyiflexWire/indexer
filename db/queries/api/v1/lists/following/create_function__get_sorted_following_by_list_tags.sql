@@ -25,26 +25,44 @@ OR REPLACE FUNCTION query.get_sorted_following_by_list_tags (p_list_id INT, p_ta
   r_updated_at TIMESTAMP WITH TIME ZONE
 ) LANGUAGE plpgsql AS $$
 DECLARE
-	direction text;
+    direction text;
 BEGIN
-	direction = LOWER(p_sort);
+    direction = LOWER(p_sort);
 
     IF cardinality(p_tags) > 0 THEN
-		RETURN QUERY
-	    SELECT * 
-	    FROM query.get_following_by_list(p_list_id) v
-	    WHERE v.tags && p_tags
-	    ORDER BY  
-			(CASE WHEN direction = 'asc' THEN updated_at END) asc,
-			(CASE WHEN direction = 'desc' THEN updated_at END) desc;
-	ELSE
         RETURN QUERY
-	    SELECT * 
-	    FROM query.get_following_by_list(p_list_id) v
-	    ORDER BY  
-			(CASE WHEN direction = 'asc' THEN updated_at END) asc,
-			(CASE WHEN direction = 'desc' THEN updated_at END) desc;
-	END IF;
+        SELECT 
+            v.efp_list_nft_token_id,
+            v.record_version,
+            v.record_type,
+            v.following_address,
+            v.tags,
+            v.updated_at
+        FROM query.get_following_by_list(p_list_id) v
+        JOIN public.efp_leaderboard l 
+        ON v.following_address = l.address
+        AND v.tags && p_tags
+        ORDER BY  
+            (CASE WHEN direction = 'followers' THEN l.followers END) DESC,
+            (CASE WHEN direction = 'earliest' THEN v.updated_at END) ASC,
+            (CASE WHEN direction = 'latest' THEN v.updated_at END) DESC;
+    ELSE
+        RETURN QUERY
+        SELECT 
+            v.efp_list_nft_token_id,
+            v.record_version,
+            v.record_type,
+            v.following_address,
+            v.tags,
+            v.updated_at
+        FROM query.get_following_by_list(p_list_id) v
+        JOIN public.efp_leaderboard l 
+        ON v.following_address = l.address
+        ORDER BY  
+            (CASE WHEN direction = 'followers' THEN l.followers END) DESC,
+            (CASE WHEN direction = 'earliest' THEN v.updated_at END) ASC,
+            (CASE WHEN direction = 'latest' THEN v.updated_at END) DESC;
+    END IF;
 END;
 $$;
 
