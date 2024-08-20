@@ -18,6 +18,8 @@ interface EnvironmentVariables {
   readonly EFP_CONTRACT_LINT_MINTER: `0x${string}`
   readonly EFP_CONTRACT_LIST_REGISTRY: `0x${string}`
   readonly EFP_CONTRACT_LIST_RECORDS: `0x${string}`
+  readonly QUIKNODE_ID: string
+  readonly QUIKNODE_PREFIX: string
   readonly SNITCH_ID: string
 }
 
