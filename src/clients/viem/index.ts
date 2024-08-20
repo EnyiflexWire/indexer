@@ -23,7 +23,7 @@ export const evmClients = {
       transport: fallback(
         [
           //   http(`https://rpc.ankr.com/eth/${env.ANKR_ID}`),
-        //   http(`https://ethereum.ethfollow.xyz/v1/mainnet`),
+          //   http(`https://ethereum.ethfollow.xyz/v1/mainnet`),
           http(`https://eth-mainnet.g.alchemy.com/v2/${env.MAINNET_ALCHEMY_ID}`),
           http(`https://${env.QUIKNODE_PREFIX}.quiknode.pro/${env.QUIKNODE_ID}`),
           http(`https://mainnet.infura.io/v3/${env.INFURA_ID}`),
