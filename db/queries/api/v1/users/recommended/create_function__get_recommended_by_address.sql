@@ -24,7 +24,7 @@ BEGIN
     WHERE efp_recommended.class = 'A'::text
         AND NOT EXISTS (
             SELECT 1 
-            FROM query.get_following_by_list(normalized_addr) fol
+            FROM query.get_following__record_type_001(normalized_addr) fol
             WHERE efp_recommended.address = fol.following_address
         )
     ORDER BY (random())
@@ -39,7 +39,7 @@ BEGIN
     WHERE efp_recommended.class = 'B'::text
         AND NOT EXISTS (
             SELECT 1 
-            FROM query.get_following_by_list(normalized_addr) fol
+            FROM query.get_following__record_type_001(normalized_addr) fol
             WHERE efp_recommended.address = fol.following_address
         )
     ORDER BY (random())
@@ -54,7 +54,7 @@ BEGIN
     WHERE efp_recommended.class = 'C'::text
         AND NOT EXISTS (
             SELECT 1 
-            FROM query.get_following_by_list(5) fol
+            FROM query.get_following__record_type_001(normalized_addr) fol
             WHERE efp_recommended.address = fol.following_address
         )
     ORDER BY (random())
