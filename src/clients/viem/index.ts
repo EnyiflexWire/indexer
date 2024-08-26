@@ -69,8 +69,7 @@ export const evmClients = {
       transport: fallback(
         [
           http(`https://base-mainnet.g.alchemy.com/v2/${env.BASE_SEPOLIA_ALCHEMY_ID}`),
-          http(`https://${env.QUIKNODE_PREFIX}.base-mainnet.quiknode.pro/${env.QUIKNODE_ID}`),
-          http(`https://sepolia.base.org`)
+          http(`https://${env.QUIKNODE_PREFIX}.base-mainnet.quiknode.pro/${env.QUIKNODE_ID}`)
         ],
         { rank: true }
       ),
@@ -119,8 +118,7 @@ export const evmClients = {
       transport: fallback(
         [
           http(`https://base-sepolia.g.alchemy.com/v2/${env.BASE_SEPOLIA_ALCHEMY_ID}`),
-          http(`https://${env.QUIKNODE_PREFIX}.base-sepolia.quiknode.pro/${env.QUIKNODE_ID}`),
-          http(`https://sepolia.base.org`)
+          http(`https://${env.QUIKNODE_PREFIX}.base-sepolia.quiknode.pro/${env.QUIKNODE_ID}`)
         ],
         { rank: true }
       ),
