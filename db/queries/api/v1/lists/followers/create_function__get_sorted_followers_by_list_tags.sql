@@ -19,19 +19,39 @@ BEGIN
 
     IF cardinality(p_tags) > 0 THEN
         RETURN QUERY
-        SELECT * 
+        SELECT 
+            v.follower,
+            v.efp_list_nft_token_id,
+            v.tags,
+            v.is_following,
+            v.is_blocked,
+            v.is_muted,
+            v.updated_at
         FROM query.get_unique_followers_by_list(p_list_id) v
-        WHERE v.tags && p_tags
+        JOIN public.efp_leaderboard l 
+        ON v.follower = l.address
+        AND v.tags && p_tags
         ORDER BY  
-            (CASE WHEN direction = 'asc' THEN v.updated_at END) asc,
-            (CASE WHEN direction = 'desc' THEN v.updated_at END) desc;
+            (CASE WHEN direction = 'followers' THEN l.followers END) DESC,
+            (CASE WHEN direction = 'earliest' THEN v.updated_at END) ASC,
+            (CASE WHEN direction = 'latest' THEN v.updated_at END) DESC;
     ELSE
         RETURN QUERY
-        SELECT * 
+        SELECT 
+            v.follower,
+            v.efp_list_nft_token_id,
+            v.tags,
+            v.is_following,
+            v.is_blocked,
+            v.is_muted,
+            v.updated_at 
         FROM query.get_unique_followers_by_list(p_list_id) v
+        JOIN public.efp_leaderboard l 
+        ON v.follower = l.address
         ORDER BY  
-            (CASE WHEN direction = 'asc' THEN v.updated_at END) asc,
-            (CASE WHEN direction = 'desc' THEN v.updated_at END) desc;
+            (CASE WHEN direction = 'followers' THEN l.followers END) DESC,
+            (CASE WHEN direction = 'earliest' THEN v.updated_at END) ASC,
+            (CASE WHEN direction = 'latest' THEN v.updated_at END) DESC;
     END IF;
 END;
 $$;
