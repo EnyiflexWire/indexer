@@ -1,5 +1,6 @@
 import { type Abi, type Log, parseAbiItem } from 'viem'
 import type { EvmClient } from '#/clients/viem/index'
+import { env } from '#/env'
 import { logger } from '#/logger'
 import { type Event, compareEvents, createEventSignature, decodeLogtoEvent } from '#/pubsub/event'
 import type { EventSubscriber } from '#/pubsub/subscriber/interface'
@@ -133,7 +134,12 @@ export class ContractEventPublisher implements EventPublisher {
   async start(): Promise<void> {
     // Fetch and process historical events
     const latestBlock = await this.client.getBlockNumber()
-    await this.fetchHistoricalEvents(0n, latestBlock)
+    const batchSize = 10000n
+    for (let fromBlock = BigInt(env.START_BLOCK); fromBlock <= latestBlock; fromBlock += batchSize) {
+      const toBlock = fromBlock + batchSize - 1n
+      logger.info(`Fetching historical events for ${this.contractName} from block ${fromBlock} to ${toBlock}`)
+      await this.fetchHistoricalEvents(fromBlock, toBlock)
+    }
 
     // This Action will batch up all the event logs found within the pollingInterval, and invoke them via onLogs.
     this.unwatch = this.client.watchContractEvent({

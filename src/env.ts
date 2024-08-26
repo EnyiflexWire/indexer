@@ -18,6 +18,7 @@ export const env = Object.freeze({
   ANVIL_ACCOUNT_PRIVATE_KEY: getEnvVariable('ANVIL_ACCOUNT_PRIVATE_KEY'),
   CHAIN_ID: getEnvVariable('CHAIN_ID'),
   SNITCH_ID: getEnvVariable('SNITCH_ID'),
+  START_BLOCK: getEnvVariable('START_BLOCK'),
   EFP_CONTRACTS: {
     ACCOUNT_METADATA: getEnvVariable('EFP_CONTRACT_ACCOUNT_METADATA'),
     LIST_MINTER: getEnvVariable('EFP_CONTRACT_LINT_MINTER'),
