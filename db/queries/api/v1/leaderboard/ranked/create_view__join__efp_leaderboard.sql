@@ -8,9 +8,10 @@ SELECT
     fers.address,
     COALESCE(ens.name) AS ens_name,
     COALESCE(ens.avatar) AS ens_avatar,
-    RANK () OVER (
-        ORDER BY mut.mutuals DESC NULLS LAST
-    ) as mutuals_rank,
+    -- RANK () OVER (
+    --     ORDER BY mut.mutuals DESC NULLS LAST
+    -- ) as mutuals_rank,
+    mut.mutuals_rank as mutuals_rank,
     RANK () OVER (
         ORDER BY fers.followers_count DESC NULLS LAST
     ) as followers_rank,

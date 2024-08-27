@@ -4,7 +4,10 @@
 -------------------------------------------------------------------------------
 CREATE
 OR REPLACE VIEW PUBLIC.view__events__efp_leaderboard_mutuals AS
-SELECT public.hexlify(r.record_data) as leader, COUNT(r.record_data) as mutuals 
+SELECT 
+    public.hexlify(r.record_data) as leader, 
+    COUNT(r.record_data) as mutuals,
+    rank() OVER (ORDER BY count(record_data) DESC NULLS LAST) AS mutuals_rank
 FROM public.view__join__efp_list_records_with_nft_manager_user_tags r
 WHERE public.hexlify(r.record_data) <> r.user
 AND EXISTS (
