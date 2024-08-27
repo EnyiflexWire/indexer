@@ -43,7 +43,7 @@ BEGIN
             (CASE WHEN direction = 'desc' THEN v.followers END) desc
         LIMIT p_limit
         OFFSET p_offset;
-    ELSEIF col = 'blocks' THEN
+    ELSEIF col = 'blocked' THEN
         RETURN QUERY
         SELECT * 
         FROM public.efp_leaderboard v
