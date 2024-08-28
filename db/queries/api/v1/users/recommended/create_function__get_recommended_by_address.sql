@@ -15,7 +15,8 @@ DECLARE
 BEGIN
     normalized_addr := public.normalize_eth_address(p_address);
     RETURN QUERY
-    SELECT efp_recommended.name,
+    SELECT 
+        efp_recommended.name,
         efp_recommended.address,
         efp_recommended.avatar,
         efp_recommended.class,
@@ -26,6 +27,7 @@ BEGIN
         FROM query.get_following__record_type_001(normalized_addr) fol
         WHERE efp_recommended.address = fol.following_address
     )
+    ORDER BY efp_recommended.index
     LIMIT p_limit   
     OFFSET p_offset;
 END;

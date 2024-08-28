@@ -26,7 +26,8 @@ BEGIN
         WHERE efp_recommended.address = fol.following_address
     )
     LIMIT p_limit   
-    OFFSET p_offset;
+    OFFSET p_offset
+    ORDER BY efp_recommended.index;
 END;
 $$;
 
