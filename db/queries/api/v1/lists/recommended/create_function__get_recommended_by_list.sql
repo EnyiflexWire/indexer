@@ -25,9 +25,9 @@ BEGIN
         FROM query.get_following_by_list(p_list_id) fol
         WHERE efp_recommended.address = fol.following_address
     )
+    ORDER BY efp_recommended.index
     LIMIT p_limit   
-    OFFSET p_offset
-    ORDER BY efp_recommended.index;
+    OFFSET p_offset;
 END;
 $$;
 
