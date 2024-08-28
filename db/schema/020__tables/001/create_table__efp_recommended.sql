@@ -4,6 +4,7 @@
 -------------------------------------------------------------------------------
 CREATE TABLE
   public.efp_recommended (
+    "index" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
     "address" types.eth_address NOT NULL,
     "avatar" TEXT,
