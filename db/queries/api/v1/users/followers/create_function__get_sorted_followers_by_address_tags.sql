@@ -30,7 +30,7 @@ BEGIN
             v.is_muted,
             v.updated_at 
         FROM query.get_unique_followers(normalized_addr) v
-        JOIN public.efp_leaderboard l 
+        LEFT JOIN public.efp_leaderboard l 
         ON v.follower = l.address
         AND v.tags && p_tags
         ORDER BY  
@@ -48,7 +48,7 @@ BEGIN
             v.is_muted,
             v.updated_at 
         FROM query.get_unique_followers(normalized_addr) v
-        JOIN public.efp_leaderboard l 
+        LEFT JOIN public.efp_leaderboard l 
         ON v.follower = l.address
         ORDER BY  
             (CASE WHEN direction = 'followers' THEN l.followers END) DESC,

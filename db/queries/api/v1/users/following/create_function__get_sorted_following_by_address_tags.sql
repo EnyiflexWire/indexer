@@ -28,7 +28,7 @@ BEGIN
             v.tags,
             v.updated_at 
         FROM query.get_following__record_type_001(normalized_addr) v
-        JOIN public.efp_leaderboard l 
+        LEFT JOIN public.efp_leaderboard l 
         ON v.following_address = l.address
         AND v.tags && p_tags
         ORDER BY  
@@ -45,7 +45,7 @@ BEGIN
             v.tags,
             v.updated_at
         FROM query.get_following__record_type_001(normalized_addr) v
-        JOIN public.efp_leaderboard l 
+        LEFT JOIN public.efp_leaderboard l 
         ON v.following_address = l.address
         ORDER BY  
             (CASE WHEN direction = 'followers' THEN l.followers END) DESC,
