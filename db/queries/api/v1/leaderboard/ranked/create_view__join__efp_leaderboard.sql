@@ -8,19 +8,10 @@ SELECT
     fers.address,
     COALESCE(ens.name) AS ens_name,
     COALESCE(ens.avatar) AS ens_avatar,
-    -- RANK () OVER (
-    --     ORDER BY mut.mutuals DESC NULLS LAST
-    -- ) as mutuals_rank,
     mut.mutuals_rank as mutuals_rank,
-    RANK () OVER (
-        ORDER BY fers.followers_count DESC NULLS LAST
-    ) as followers_rank,
-    RANK () OVER (
-        ORDER BY fing.following_count DESC NULLS LAST
-    ) as following_rank,
-    RANK () OVER (
-        ORDER BY blocks.blocked_count DESC NULLS LAST
-    ) as blocks_rank,
+    fers.followers_rank as followers_rank,
+    fing.following_rank as following_rank,
+    blocks.blocks_rank as blocks_rank,
     COALESCE(mut.mutuals, 0 ) as mutuals,
     COALESCE(fers.followers_count, 0 ) as followers,
     COALESCE(fing.following_count, 0 ) as following,

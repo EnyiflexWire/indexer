@@ -2,21 +2,16 @@
 -------------------------------------------------------------------------------
 -- View: view__events__efp_leaderboard_mutuals
 -------------------------------------------------------------------------------
-CREATE
-OR REPLACE VIEW PUBLIC.view__events__efp_leaderboard_mutuals AS
+CREATE OR REPLACE VIEW PUBLIC.view__events__efp_leaderboard_mutuals AS
 SELECT 
-    public.hexlify(r.record_data) as leader, 
-    COUNT(r.record_data) as mutuals,
-    rank() OVER (ORDER BY count(record_data) DESC NULLS LAST) AS mutuals_rank
+	hexlify(r.record_data) AS leader,
+	count(r.record_data) AS mutuals,
+	rank() OVER (ORDER BY (count(r.record_data)) DESC NULLS LAST) AS mutuals_rank
 FROM public.view__join__efp_list_records_with_nft_manager_user_tags r
-WHERE public.hexlify(r.record_data) <> r.user
-AND EXISTS (
-    SELECT 1 
-    FROM public.view__join__efp_list_records_with_nft_manager_user_tags r2
-    WHERE public.hexlify(r2.record_data) = r.user
-    AND public.hexlify(r.record_data) = r2.user
-)
-GROUP BY leader;
+INNER JOIN public.view__join__efp_list_records_with_nft_manager_user_tags t
+ON r."user" = hexlify(t.record_data) 
+AND t."user" = hexlify(r.record_data) 
+GROUP BY r.record_data;
 
 
 -- migrate:down
