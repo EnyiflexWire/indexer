@@ -12,10 +12,10 @@ SELECT
         updated_at DESC
     ) as _index
 FROM public.view__join__efp_list_records_with_nft_manager_user_tags
-WHERE updated_at > now()::date - interval '12h'
+--WHERE updated_at > now()::date - interval '12h'
 GROUP BY "user", updated_at
 ORDER BY updated_at DESC
-LIMIT 50;
+LIMIT 500;
 
 
 
