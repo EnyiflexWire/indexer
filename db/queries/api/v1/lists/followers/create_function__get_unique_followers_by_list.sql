@@ -74,7 +74,7 @@ BEGIN
         COALESCE(following_info.is_following, FALSE) AS is_following,
         COALESCE(following_info.is_blocked, FALSE) AS is_blocked,
         COALESCE(following_info.is_muted, FALSE) AS is_muted,
-        following_info.updated_at
+        v.updated_at
     FROM
         public.view__join__efp_list_records_with_nft_manager_user_tags AS v
     LEFT JOIN LATERAL (
@@ -114,10 +114,10 @@ BEGIN
         v.record_type,
         v.record_data,
         v.tags,
+        v.updated_at,
         following_info.is_following,
         following_info.is_blocked,
-        following_info.is_muted,
-        following_info.updated_at
+        following_info.is_muted 
     HAVING
         (SELECT get_primary_list FROM query.get_primary_list(v.user)) = v.token_id
     ORDER BY
