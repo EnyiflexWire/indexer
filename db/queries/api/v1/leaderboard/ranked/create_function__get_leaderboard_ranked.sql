@@ -29,6 +29,7 @@ BEGIN
         RETURN QUERY
         SELECT * 
         FROM public.efp_leaderboard v
+        WHERE v.following_rank > 0
         ORDER BY  
             (CASE WHEN direction = 'asc' THEN v.following END) asc,
             (CASE WHEN direction = 'desc' THEN v.following END) desc
@@ -38,6 +39,7 @@ BEGIN
         RETURN QUERY
         SELECT * 
         FROM public.efp_leaderboard v
+        WHERE v.followers_rank > 0
         ORDER BY  
             (CASE WHEN direction = 'asc' THEN v.followers END) asc,
             (CASE WHEN direction = 'desc' THEN v.followers END) desc
@@ -47,6 +49,7 @@ BEGIN
         RETURN QUERY
         SELECT * 
         FROM public.efp_leaderboard v
+        WHERE v.blocks_rank > 0
         ORDER BY  
             (CASE WHEN direction = 'asc' THEN v.blocks END) asc,
             (CASE WHEN direction = 'desc' THEN v.blocks END) desc
@@ -56,6 +59,7 @@ BEGIN
         RETURN QUERY
         SELECT * 
         FROM public.efp_leaderboard v
+        WHERE v.mutuals_rank > 0
         ORDER BY  
             (CASE WHEN direction = 'asc' THEN v.mutuals END) asc,
             (CASE WHEN direction = 'desc' THEN v.mutuals END) desc
