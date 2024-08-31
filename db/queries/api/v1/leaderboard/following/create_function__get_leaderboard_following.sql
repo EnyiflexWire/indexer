@@ -14,12 +14,20 @@
 --          following addresses.
 -------------------------------------------------------------------------------
 CREATE
-OR REPLACE FUNCTION query.get_leaderboard_following (limit_count BIGINT) RETURNS TABLE (address types.eth_address, following_count BIGINT) LANGUAGE PLPGSQL AS $$
+OR REPLACE FUNCTION query.get_leaderboard_following (limit_count BIGINT) 
+RETURNS TABLE (
+    address types.eth_address, 
+    following_count BIGINT,
+    following_rank BIGINT
+) LANGUAGE PLPGSQL AS $$
 BEGIN
     RETURN QUERY
   SELECT
         v.user AS address,
-        COUNT(DISTINCT v.record_data) AS following_count
+        COUNT(DISTINCT v.record_data) AS following_count,
+        RANK () OVER (
+            ORDER BY COUNT(DISTINCT v.record_data) DESC NULLS LAST
+        ) as following_rank
     FROM
         public.view__join__efp_list_records_with_nft_manager_user_tags AS v
     WHERE

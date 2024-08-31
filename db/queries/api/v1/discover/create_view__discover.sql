@@ -2,16 +2,37 @@
 -------------------------------------------------------------------------------
 -- View: view__discover
 -------------------------------------------------------------------------------
-CREATE
-OR REPLACE VIEW PUBLIC.view__discover AS
-SELECT 
-    DISTINCT r.address,
-    l.name,
-    l.avatar,
-    l.followers,
-    l.following 
-FROM public.view__latest_follows r
-LEFT JOIN public.efp_leaderboard l ON l.address = r.address;
+CREATE OR REPLACE VIEW PUBLIC.view__discover AS
+SELECT
+	address,
+	name,
+	avatar,
+	followers,
+	following
+FROM (
+	(SELECT 
+	    lf.address,
+	    l.name,
+	    l.avatar,
+	    l.followers,
+	    l.following,
+		lf._index
+	FROM public.view__latest_leaders lf
+	JOIN public.efp_leaderboard l ON l.address = lf.address )
+	UNION
+	(SELECT 
+	    r.address,
+	    l.name,
+	    l.avatar,
+	    l.followers,
+	    l.following,
+		r._index
+	FROM public.view__latest_follows r
+	JOIN public.efp_leaderboard l ON l.address = r.address
+	WHERE r.address NOT IN (SELECT address FROM public.view__latest_leaders) )
+)
+ORDER BY _index ASC;
+
 
 
 

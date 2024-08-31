@@ -13,12 +13,20 @@
 --          representing each address and its count of unique followers.
 -------------------------------------------------------------------------------
 CREATE
-OR REPLACE FUNCTION query.get_leaderboard_followers (limit_count BIGINT) RETURNS TABLE (address types.eth_address, followers_count BIGINT) LANGUAGE plpgsql AS $$
+OR REPLACE FUNCTION query.get_leaderboard_followers (limit_count BIGINT) 
+RETURNS TABLE (
+    address types.eth_address, 
+    followers_count BIGINT,
+    followers_rank BIGINT
+) LANGUAGE plpgsql AS $$
 BEGIN
     RETURN QUERY
     SELECT
         public.hexlify(v.record_data)::types.eth_address AS address,
-        COUNT(DISTINCT v.user) AS followers_count
+        COUNT(DISTINCT v.user) AS followers_count,
+        RANK () OVER (
+            ORDER BY COUNT(DISTINCT v.user) DESC NULLS LAST
+        ) as followers_rank
     FROM
         public.view__join__efp_list_records_with_nft_manager_user_tags AS v
     WHERE

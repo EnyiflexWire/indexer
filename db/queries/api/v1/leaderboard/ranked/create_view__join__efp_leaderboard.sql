@@ -8,29 +8,20 @@ SELECT
     fers.address,
     COALESCE(ens.name) AS ens_name,
     COALESCE(ens.avatar) AS ens_avatar,
-    -- RANK () OVER (
-    --     ORDER BY mut.mutuals DESC NULLS LAST
-    -- ) as mutuals_rank,
-    mut.mutuals_rank as mutuals_rank,
-    RANK () OVER (
-        ORDER BY fers.followers_count DESC NULLS LAST
-    ) as followers_rank,
-    RANK () OVER (
-        ORDER BY fing.following_count DESC NULLS LAST
-    ) as following_rank,
-    RANK () OVER (
-        ORDER BY blocks.blocked_count DESC NULLS LAST
-    ) as blocks_rank,
-    COALESCE(mut.mutuals, 0 ) as mutuals,
-    COALESCE(fers.followers_count, 0 ) as followers,
-    COALESCE(fing.following_count, 0 ) as following,
-    COALESCE(blocks.blocked_count, 0 ) as blocks
-FROM query.get_leaderboard_followers(10000) fers 
-LEFT OUTER JOIN query.get_leaderboard_following(10000) fing ON fing.address = fers.address 
-LEFT OUTER JOIN query.get_leaderboard_blocked(10000) blocks ON blocks.address = fers.address
-LEFT OUTER JOIN public.view__events__efp_leaderboard_mutuals mut ON mut.leader = fers.address
-LEFT OUTER JOIN public.ens_metadata ens ON ens.address::text = fers.address::text
-ORDER BY mut.mutuals DESC NULLS LAST;
+    mut.mutuals_rank,
+    fers.followers_rank,
+    fing.following_rank,
+    blocks.blocked_rank AS blocks_rank,
+    COALESCE(mut.mutuals, 0::bigint) AS mutuals,
+    COALESCE(fers.followers_count, 0::bigint) AS followers,
+    COALESCE(fing.following_count, 0::bigint) AS following,
+    COALESCE(blocks.blocked_count, 0::bigint) AS blocks
+   FROM query.get_leaderboard_followers(10000::bigint) fers(address, followers_count, followers_rank)
+     LEFT JOIN query.get_leaderboard_following(10000::bigint) fing(address, following_count, following_rank) ON fing.address::text = fers.address::text
+     LEFT JOIN query.get_leaderboard_blocked(10000::bigint) blocks(address, blocked_count, blocked_rank) ON blocks.address::text = fers.address::text
+     LEFT JOIN public.view__events__efp_leaderboard_mutuals mut ON mut.leader::text = fers.address::text
+     LEFT JOIN public.ens_metadata ens ON ens.address::text = fers.address::text
+  ORDER BY mut.mutuals DESC NULLS LAST;
 
 -- migrate:down
 -------------------------------------------------------------------------------
