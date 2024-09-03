@@ -18,8 +18,7 @@ DECLARE
     normalized_addr types.eth_address;
 BEGIN
     normalized_addr := public.normalize_eth_address(p_address);
-
-    normalized_addr := public.normalize_eth_address(p_address);
+    
 IF public.is_valid_address(p_term) THEN
     RETURN QUERY
     SELECT  
