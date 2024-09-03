@@ -35,7 +35,7 @@ BEGIN
     primary_list_token_id = p_list_id;
     SELECT v.user 
     INTO normalized_addr
-    FROM efp_lists as v 
+    FROM public.view__join__efp_lists_with_metadata as v 
     WHERE token_id = primary_list_token_id;
 
 	addr_bytea := public.unhexlify(normalized_addr);

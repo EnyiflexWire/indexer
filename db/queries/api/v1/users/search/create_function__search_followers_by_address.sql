@@ -19,7 +19,8 @@ DECLARE
 BEGIN
     normalized_addr := public.normalize_eth_address(p_address);
 
-IF public.is_valid_address(p_term) IS TRUE THEN
+    normalized_addr := public.normalize_eth_address(p_address);
+IF public.is_valid_address(p_term) THEN
     RETURN QUERY
     SELECT  
         v.follower,

@@ -30,7 +30,7 @@ IF public.is_valid_address(p_term) IS TRUE THEN
         v.tags,
         v.updated_at
     FROM query.get_following__record_type_001(normalized_addr) v
-    JOIN public.ens_metadata meta ON meta.address = v.following_address
+    LEFT JOIN public.ens_metadata meta ON meta.address = v.following_address
     WHERE v.following_address ~ p_term
     LIMIT p_limit
     OFFSET p_offset;

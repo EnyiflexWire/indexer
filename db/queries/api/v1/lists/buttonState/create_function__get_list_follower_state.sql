@@ -33,7 +33,7 @@ BEGIN
 	-- Now determine the list storage location for the primary list token id
 	SELECT v.user 
     INTO account_addr
-    FROM efp_lists as v 
+    FROM public.view__join__efp_lists_with_metadata as v 
     WHERE token_id = p_account_list_id;
 
     SELECT v.primary_list_token_id

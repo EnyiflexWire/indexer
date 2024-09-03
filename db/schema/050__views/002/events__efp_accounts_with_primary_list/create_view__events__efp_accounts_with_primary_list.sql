@@ -32,7 +32,7 @@ OR REPLACE VIEW public.view__events__efp_accounts_with_primary_list AS
 SELECT 
 	v.user as address, 
 	v.token_id as primary_list_token_id
-FROM public.efp_lists as v,  public.efp_account_metadata AS meta
+FROM public.view__join__efp_lists_with_metadata as v,  public.efp_account_metadata AS meta
 WHERE 
 	meta.address = v.user AND
 	public.convert_hex_to_bigint(meta.value) = v.token_id;

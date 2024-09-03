@@ -12,17 +12,12 @@ CREATE
 OR REPLACE FUNCTION query.get_address_by_list (p_list_id INT) RETURNS VARCHAR(42) AS $$
 DECLARE
     primary_list_address VARCHAR(42);
-	primary_list_id INT;
 BEGIN
-	primary_list_id = p_list_id;
 
     SELECT v.user 
     INTO primary_list_address
-    FROM efp_lists as v,  efp_account_metadata AS meta
-    WHERE v.token_id = primary_list_id AND (
-		meta.address = v.user AND
-		convert_hex_to_bigint(meta.value) = v.token_id
-	);
+    FROM public.view__join__efp_lists_with_metadata as v
+    WHERE v.token_id = p_list_id;
 
     RETURN primary_list_address;
 END;
