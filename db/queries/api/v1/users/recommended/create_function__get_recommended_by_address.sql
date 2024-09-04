@@ -24,7 +24,7 @@ BEGIN
     FROM public.efp_recommended
     WHERE NOT EXISTS (
         SELECT 1 
-        FROM query.get_following__record_type_001(normalized_addr) fol
+        FROM query.get_all_following__record_type_001(normalized_addr) fol
         WHERE efp_recommended.address = fol.following_address
     )
     ORDER BY efp_recommended.index

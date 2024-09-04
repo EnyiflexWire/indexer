@@ -22,7 +22,7 @@ BEGIN
     FROM public.efp_recommended
     WHERE NOT EXISTS (
         SELECT 1 
-        FROM query.get_following_by_list(p_list_id) fol
+        FROM query.get_all_following_by_list(p_list_id) fol
         WHERE efp_recommended.address = fol.following_address
     )
     ORDER BY efp_recommended.index

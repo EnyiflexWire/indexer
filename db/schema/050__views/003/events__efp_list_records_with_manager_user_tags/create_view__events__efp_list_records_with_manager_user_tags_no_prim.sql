@@ -30,7 +30,7 @@ SELECT
   END AS has_mute_tag
 FROM
   PUBLIC.view__join__efp_list_records_with_tags AS record_tags
-  LEFT JOIN PUBLIC.efp_lists AS l ON l.list_storage_location_chain_id = record_tags.chain_id
+  LEFT JOIN PUBLIC.view__join__efp_lists_with_metadata AS l ON l.list_storage_location_chain_id = record_tags.chain_id
   AND l.list_storage_location_contract_address = record_tags.contract_address
   AND l.list_storage_location_slot = record_tags.slot;
 

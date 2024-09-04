@@ -13,6 +13,7 @@ OR REPLACE FUNCTION query.get_ens_metadata_by_name (p_name TEXT) RETURNS TABLE (
     name TEXT,
     address types.eth_address,
     avatar TEXT,
+    records TEXT,
 	updated_at timestamp WITH TIME ZONE
 ) LANGUAGE plpgsql AS $$
 BEGIN
@@ -21,6 +22,7 @@ BEGIN
         metadata.name as name,
         metadata.address as address,
         metadata.avatar as avatar,
+        metadata.records::text as records,
 	    metadata.updated_at
     FROM
         public.ens_metadata as metadata

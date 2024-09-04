@@ -4,8 +4,7 @@
 -------------------------------------------------------------------------------
 CREATE
 OR REPLACE VIEW PUBLIC.view__join__efp_leaderboard AS
-SELECT
-    fers.address,
+ SELECT fers.address,
     COALESCE(ens.name) AS ens_name,
     COALESCE(ens.avatar) AS ens_avatar,
     mut.mutuals_rank,

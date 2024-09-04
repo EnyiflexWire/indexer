@@ -8,7 +8,7 @@ CREATE TABLE
     "address" types.eth_address NOT NULL,
     "avatar" TEXT,
     "display" TEXT,
-    "records" TEXT[],
+    "records" JSON,
     "chains" TEXT[],
     "fresh" BIGINT,
     "resolver" types.eth_address,
