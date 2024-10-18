@@ -132,7 +132,7 @@ export class ContractEventPublisher implements EventPublisher {
    * It sets up a listener for contract events and dispatches them to all subscribers.
    */
   async start(): Promise<void> {
-    if (env.RECOVER_HISTORY) {
+    if (!!env.RECOVER_HISTORY) {
       // Fetch and process historical events
       const latestBlock = await this.client.getBlockNumber()
       const batchSize = 10000n
