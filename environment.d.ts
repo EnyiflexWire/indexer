@@ -23,7 +23,7 @@ interface EnvironmentVariables {
   readonly SNITCH_ID: string
   readonly START_BLOCK: string
   readonly BATCH_SIZE: number
-  readonly RECOVER_HISTORY: boolean
+  readonly RECOVER_HISTORY: string
 }
 
 declare module 'bun' {
