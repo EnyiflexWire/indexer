@@ -11,6 +11,7 @@ FROM public.view__join__efp_list_records_with_nft_manager_user_tags r
 INNER JOIN public.view__join__efp_list_records_with_nft_manager_user_tags t
 ON r."user" = public.hexlify(t.record_data) 
 AND t."user" = public.hexlify(r.record_data) 
+WHERE r.has_block_tag = 'false' AND r.has_mute_tag = 'false' AND t.has_block_tag = 'false' AND t.has_mute_tag = 'false' 
 GROUP BY r.record_data;
 
 
