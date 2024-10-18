@@ -152,7 +152,7 @@ export class EventInterleaver implements EventPublisher, EventSubscriber {
     const now = new Date()
     const batchSize = env.BATCH_SIZE
     // Muted by user
-    // biome-ignore lint/nursery/noEvolvingTypes: <explanation>
+    // biome-ignore lint/suspicious/noEvolvingTypes: <explanation>
     let batch = []
 
     // drain the queue of "ready" events

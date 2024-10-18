@@ -37,11 +37,11 @@
       },
       "nursery": {
         "all": true,
-        "useImportRestrictions": "off",
-        "noConsole": "off",
-        "noUndeclaredDependencies": "off",
-        "useImportExtensions": "off",
-        "useTopLevelRegex": "off"
+        "noProcessEnv": "off",
+        "noSecrets": "off",
+        "useConsistentMemberAccessibility": "off",
+        "useExplicitType": "off",
+        "useImportRestrictions": "off"
       },
       "complexity": {
         "all": true,
@@ -55,16 +55,20 @@
         "noNodejsModules": "off",
         "noUnusedVariables": "off",
         "noUndeclaredVariables": "off",
+        "noUndeclaredDependencies": "off",
+        "useImportExtensions": "off",
         "noUnusedImports": "off"
       },
       "performance": {
         "all": true,
-        "noAccumulatingSpread": "off"
+        "noAccumulatingSpread": "off",
+        "useTopLevelRegex": "off"
       },
       "suspicious": {
         "all": true,
         "noRedeclare": "off",
         "noConsoleLog": "off",
+        "noConsole": "off",
         "noExplicitAny": "off",
         "noEmptyInterface": "off",
         "useAwait": "off",

@@ -20,6 +20,7 @@ export const env = Object.freeze({
   SNITCH_ID: getEnvVariable('SNITCH_ID'),
   START_BLOCK: getEnvVariable('START_BLOCK'),
   BATCH_SIZE: getEnvVariable('BATCH_SIZE'),
+  RECOVER_HISTORY: getEnvVariable('RECOVER_HISTORY'),
   EFP_CONTRACTS: {
     ACCOUNT_METADATA: getEnvVariable('EFP_CONTRACT_ACCOUNT_METADATA'),
     LIST_MINTER: getEnvVariable('EFP_CONTRACT_LINT_MINTER'),
