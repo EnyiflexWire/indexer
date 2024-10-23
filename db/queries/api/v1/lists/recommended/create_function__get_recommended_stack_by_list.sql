@@ -39,6 +39,7 @@ BEGIN
 		FROM query.get_all_following_by_list(p_list_id) fol
 		WHERE r.address = fol.following_address
 	)
+	ORDER BY r.index ASC
     LIMIT p_limit   
     OFFSET p_offset;
 END;
