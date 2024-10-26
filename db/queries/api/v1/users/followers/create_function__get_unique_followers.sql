@@ -62,67 +62,139 @@ BEGIN
 
     END IF;
 
-    -- TODO: left join below query against the following query to determine if:
-    --       - (following) the follower is an unblocked+unmuted list record of by the primary list of p_address
-    --       - (blocked)  the follower is blocked on the primary list of p_address
-    --       - (muted)    the follower is muted on the primary list of p_address
+    CREATE TEMPORARY TABLE temp_list_records (
+        nft_chain_id bigint,
+        nft_contract_address varchar(42),
+        token_id bigint,
+        owner varchar(42),
+        manager varchar(42),
+        "user" varchar(42),
+        list_storage_location_chain_id bigint,
+        list_storage_location_contract_address varchar(42),
+        list_storage_location_slot bytea,
+        record bytea,
+        record_version smallint,
+        record_type smallint,
+        record_data bytea,
+        tags types.efp_tag[],
+        updated_at timestamp with TIME ZONE,
+        has_block_tag boolean,
+        has_mute_tag boolean
+    ) ON COMMIT DROP;
 
-     RETURN QUERY
-    SELECT
-        v.user AS follower,
-        v.token_id AS efp_list_nft_token_id,
-        COALESCE(v.tags, '{}') AS tags,
-        COALESCE(following_info.is_following, FALSE) AS is_following,
-        COALESCE(following_info.is_blocked, FALSE) AS is_blocked,
-        COALESCE(following_info.is_muted, FALSE) AS is_muted,
-        v.updated_at
-    FROM
-        public.view__join__efp_list_records_with_nft_manager_user_tags AS v
-    LEFT JOIN LATERAL (
-        SELECT
-            NOT (following.has_block_tag OR following.has_mute_tag) AS is_following,
-            following.has_block_tag AS is_blocked,
-            following.has_mute_tag AS is_muted
+    INSERT INTO temp_list_records SELECT l.nft_chain_id,
+        l.nft_contract_address,
+        l.token_id,
+        l.owner,
+        l.manager,
+        l."user",
+        l.list_storage_location_chain_id,
+        l.list_storage_location_contract_address,
+        l.list_storage_location_slot,
+        record_tags.record,
+        record_tags.record_version,
+        record_tags.record_type,
+        record_tags.record_data,
+        record_tags.tags,
+        record_tags.updated_at,
+            CASE
+                WHEN 'block'::text = ANY (record_tags.tags::text[]) THEN true
+                ELSE false
+            END AS has_block_tag,
+            CASE
+                WHEN 'mute'::text = ANY (record_tags.tags::text[]) THEN true
+                ELSE false
+            END AS has_mute_tag
+    FROM view__join__efp_list_records_with_tags record_tags
+        LEFT JOIN view__join__efp_lists_with_metadata l ON l.list_storage_location_chain_id = record_tags.chain_id::bigint AND l.list_storage_location_contract_address::text = record_tags.contract_address::text AND l.list_storage_location_slot::bytea = record_tags.slot::bytea
+        JOIN efp_account_metadata meta ON l."user"::text = meta.address::text AND l.token_id::bigint = convert_hex_to_bigint(meta.value::text)
+        WHERE 
+        l.list_storage_location_chain_id = t_list_storage_location_chain_id AND
+        l.list_storage_location_contract_address = t_list_storage_location_contract_address AND
+        l.list_storage_location_slot = t_list_storage_location_storage_slot AND
+        record_tags.record_version = 1 AND
+        record_tags.record_type = 1;
+
+    CREATE TEMPORARY TABLE temp_addr_follows (
+        "user" types.eth_address,
+        token_id types.efp_list_nft_token_id,
+        record_version smallint,
+        record_type smallint,
+        record_data bytea,
+        tags types.efp_tag[],
+        updated_at TIMESTAMP WITH TIME ZONE
+    ) ON COMMIT DROP;
+
+    INSERT INTO temp_addr_follows SELECT
+            v.user AS follower,
+            v.token_id AS efp_list_nft_token_id,
+            v.record_version,
+            v.record_type,
+            v.record_data,
+            COALESCE(v.tags, '{}') AS tags,
+            v.updated_at
         FROM
-            public.view__join__efp_list_records_with_nft_manager_user_tags AS following
+            public.view__join__efp_list_records_with_nft_manager_user_tags AS v
         WHERE
-            following.list_storage_location_chain_id = t_list_storage_location_chain_id AND
-            following.list_storage_location_contract_address = t_list_storage_location_contract_address AND
-            following.list_storage_location_slot = t_list_storage_location_storage_slot AND
-            following.record_version = 1 AND
-            following.record_type = 1 AND
-            public.is_valid_address(following.record_data) AND
-            PUBLIC.hexlify(following.record_data)::types.eth_address = v.user
-    ) AS following_info ON TRUE
-    WHERE
-        -- only list record version 1
-        v.record_version = 1 AND
-        -- address record type (1)
-        v.record_type = 1 AND
-        -- match the address parameter
-        v.record_data = addr_bytea AND
-        -- Valid record data lookup
-        v.user IS NOT NULL AND
-        -- NOT blocked
-        v.has_block_tag = FALSE AND
-        -- NOT muted
-        v.has_mute_tag = FALSE
-    GROUP BY
-        v.user,
-        v.token_id,
-        v.record_version,
-        v.record_type,
-        v.record_data,
-        v.tags,
-        v.updated_at,
-        following_info.is_following,
-        following_info.is_blocked,
-        following_info.is_muted
-    HAVING
-        (SELECT get_primary_list FROM query.get_primary_list(v.user)) = v.token_id
-    ORDER BY
-        v.updated_at DESC,
-        v.user ASC;
+            -- only list record version 1
+            v.record_version = 1 AND
+            -- address record type (1)
+            v.record_type = 1 AND
+            -- match the address parameter
+            v.record_data = addr_bytea AND
+            -- Valid record data lookup
+            v.user IS NOT NULL AND
+            -- NOT blocked
+            v.has_block_tag = FALSE AND
+            -- NOT muted
+            v.has_mute_tag = FALSE
+        GROUP BY
+            v.user,
+            v.token_id,
+            v.record_version,
+            v.record_type,
+            v.record_data,
+            v.tags,
+            v.updated_at 
+        ORDER BY
+            v.user ASC;
+
+    RETURN QUERY
+        SELECT
+            v.user AS follower,
+            v.token_id AS efp_list_nft_token_id,
+            COALESCE(v.tags, '{}') AS tags,
+            COALESCE(following_info.is_following, FALSE) AS is_following,
+            COALESCE(following_info.is_blocked, FALSE) AS is_blocked,
+            COALESCE(following_info.is_muted, FALSE) AS is_muted,
+            v.updated_at
+        FROM
+            temp_addr_follows AS v
+        LEFT JOIN LATERAL (
+            SELECT
+                NOT (following.has_block_tag OR following.has_mute_tag) AS is_following,
+                following.has_block_tag AS is_blocked,
+                following.has_mute_tag AS is_muted,
+                following.updated_at AS updated_at
+            FROM
+                temp_list_records AS following
+            WHERE
+                public.is_valid_address(following.record_data) AND
+                PUBLIC.hexlify(following.record_data)::types.eth_address = v.user
+        ) AS following_info ON TRUE
+        GROUP BY
+            v.user,
+            v.token_id,
+            v.record_version,
+            v.record_type,
+            v.record_data,
+            v.tags,
+            v.updated_at,
+            following_info.is_following,
+            following_info.is_blocked,
+            following_info.is_muted 
+        ORDER BY
+            v.user ASC;
 END;
 $$;
 

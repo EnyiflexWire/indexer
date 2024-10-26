@@ -41,6 +41,10 @@ export interface EfpAccountMetadata {
   value: string
 }
 
+export interface EfpAddresses {
+  address: string
+}
+
 export interface EfpLeaderboard {
   address: string
   avatar: string | null
@@ -127,11 +131,28 @@ export interface EfpLists {
   user: string
 }
 
+export interface EfpMutuals {
+  address: string
+  mutuals: Generated<Int8 | null>
+  mutuals_rank: Int8 | null
+}
+
 export interface EfpPoapLinks {
   claimant: string | null
   claimed: boolean
   created_at: Generated<Timestamp | null>
   link: string
+  updated_at: Generated<Timestamp | null>
+}
+
+export interface EfpRecentActivity {
+  _index: Generated<Int8 | null>
+  address: string
+  avatar: string | null
+  created_at: Generated<Timestamp | null>
+  followers: Generated<Int8 | null>
+  following: Generated<Int8 | null>
+  name: string | null
   updated_at: Generated<Timestamp | null>
 }
 
@@ -189,6 +210,7 @@ export interface ViewEfpStats {
   address_count: Int8 | null
   list_count: Int8 | null
   list_op_count: Int8 | null
+  user_count: Int8 | null
 }
 
 export interface ViewEventsEfpAccountMetadata {
@@ -411,9 +433,17 @@ export interface ViewLatestLeaders {
   updated_at: Timestamp | null
 }
 
+export interface ViewTrending {
+  address: string | null
+  avatar: string | null
+  count: Int8 | null
+  name: string | null
+}
+
 export interface DB {
   contracts: Contracts
   efp_account_metadata: EfpAccountMetadata
+  efp_addresses: EfpAddresses
   efp_leaderboard: EfpLeaderboard
   efp_list_metadata: EfpListMetadata
   efp_list_nfts: EfpListNfts
@@ -421,7 +451,9 @@ export interface DB {
   efp_list_record_tags: EfpListRecordTags
   efp_list_records: EfpListRecords
   efp_lists: EfpLists
+  efp_mutuals: EfpMutuals
   efp_poap_links: EfpPoapLinks
+  efp_recent_activity: EfpRecentActivity
   efp_recommended: EfpRecommended
   ens_metadata: EnsMetadata
   events: Events
@@ -447,4 +479,5 @@ export interface DB {
   view__join__efp_lists_with_metadata: ViewJoinEfpListsWithMetadata
   view__latest_follows: ViewLatestFollows
   view__latest_leaders: ViewLatestLeaders
+  view__trending: ViewTrending
 }

@@ -132,13 +132,15 @@ export class ContractEventPublisher implements EventPublisher {
    * It sets up a listener for contract events and dispatches them to all subscribers.
    */
   async start(): Promise<void> {
-    // Fetch and process historical events
-    const latestBlock = await this.client.getBlockNumber()
-    const batchSize = 10000n
-    for (let fromBlock = BigInt(env.START_BLOCK); fromBlock <= latestBlock; fromBlock += batchSize) {
-      const toBlock = fromBlock + batchSize - 1n
-      logger.info(`Fetching historical events for ${this.contractName} from block ${fromBlock} to ${toBlock}`)
-      await this.fetchHistoricalEvents(fromBlock, toBlock)
+    if (env.RECOVER_HISTORY === 'true') {
+      // Fetch and process historical events
+      const latestBlock = await this.client.getBlockNumber()
+      const batchSize = 10000n
+      for (let fromBlock = BigInt(env.START_BLOCK); fromBlock <= latestBlock; fromBlock += batchSize) {
+        const toBlock = fromBlock + batchSize - 1n
+        logger.info(`Fetching historical events for ${this.contractName} from block ${fromBlock} to ${toBlock}`)
+        await this.fetchHistoricalEvents(fromBlock, toBlock)
+      }
     }
 
     // This Action will batch up all the event logs found within the pollingInterval, and invoke them via onLogs.

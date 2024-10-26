@@ -113,8 +113,8 @@ BEGIN
         following_info.is_following,
         following_info.is_blocked,
         following_info.is_muted
-    HAVING
-        (SELECT get_primary_list FROM query.get_primary_list(v.user)) = v.token_id
+    -- HAVING
+    --     (SELECT get_primary_list FROM query.get_primary_list(v.user)) = v.token_id
     ORDER BY
         v.user ASC
     LIMIT p_limit

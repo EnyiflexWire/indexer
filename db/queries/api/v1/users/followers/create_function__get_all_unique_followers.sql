@@ -1,11 +1,11 @@
 --migrate:up
 -------------------------------------------------------------------------------
--- Function: get_unique_followers_by_list
--- Description: Retrieves a distinct list of followers for a specified list id,
+-- Function: get_all_unique_followers
+-- Description: Retrieves a distinct list of followers for a specified address,
 --              de-duplicating by 'list_user'. This ensures each follower is
 --              listed once, even if associated with multiple tokens.
 -- Parameters:
---   - list_id (INT): The primary list id used to identify and filter followers.
+--   - address (text): Address used to identify and filter followers.
 -- Returns: A table with
 --            'follower' (types.eth_address),
 --            'efp_list_nft_token_id' (types.efp_list_nft_token_id),
@@ -16,7 +16,7 @@
 --          representing the list token ID, list user, and tags.
 -------------------------------------------------------------------------------
 CREATE
-OR REPLACE FUNCTION query.get_unique_followers_by_list(p_list_id INT) RETURNS TABLE (
+OR REPLACE FUNCTION query.get_all_unique_followers(p_address VARCHAR(42)) RETURNS TABLE (
   follower types.eth_address,
   efp_list_nft_token_id types.efp_list_nft_token_id,
   tags types.efp_tag [],
@@ -33,14 +33,15 @@ DECLARE
     t_list_storage_location_contract_address VARCHAR(42);
     t_list_storage_location_storage_slot types.efp_list_storage_location_slot;
 BEGIN
+    -- Normalize the input address to lowercase
+    normalized_addr := public.normalize_eth_address(p_address);
+    addr_bytea := public.unhexlify(normalized_addr);
 
-    primary_list_token_id = p_list_id;
-    SELECT v.user 
-    INTO normalized_addr
-    FROM public.view__join__efp_lists_with_metadata as v 
-    WHERE token_id = primary_list_token_id;
-
-	addr_bytea := public.unhexlify(normalized_addr);
+    -- Get the primary list token id
+    SELECT v.primary_list_token_id
+    INTO primary_list_token_id
+    FROM public.view__events__efp_accounts_with_primary_list AS v
+    WHERE v.address = normalized_addr;
 
     -- If no primary list token id is found, return an empty result set
     IF primary_list_token_id IS NOT NULL THEN
@@ -142,11 +143,7 @@ BEGIN
             -- match the address parameter
             v.record_data = addr_bytea AND
             -- Valid record data lookup
-            v.user IS NOT NULL AND
-            -- NOT blocked
-            v.has_block_tag = FALSE AND
-            -- NOT muted
-            v.has_mute_tag = FALSE
+            v.user IS NOT NULL 
         GROUP BY
             v.user,
             v.token_id,
@@ -196,7 +193,6 @@ BEGIN
             v.user ASC;
 END;
 $$;
-
 
 
 
